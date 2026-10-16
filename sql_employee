@@ -1,0 +1,194 @@
+CREATE DATABASE CompanyDB;
+USE CompanyDB;
+CREATE TABLE Employee (
+    EmpId INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    Department VARCHAR(30),
+    Designation VARCHAR(50),
+    Salary DECIMAL(10,2),
+    DOJ DATE,
+    Email VARCHAR(50) UNIQUE,
+    ManagerId INT,
+    Age INT
+);
+DESCRIBE Employee;
+INSERT INTO Employee VALUES
+(101, 'Rohan Mehta', 'Sales', 'Sales Executive', 35000, '2019-06-12', 'rohan.mehta@company.com', NULL, 29),
+(102, 'Priya Sharma', 'IT', 'Software Engineer', 55000, '2020-01-15', 'priya.sharma@company.com', 105, 27),
+(103, 'Aman Gupta', 'HR', 'HR Manager', 60000, '2018-03-20', 'aman.gupta@company.com', NULL, 34),
+(104, 'Sneha Rao', 'IT', 'Software Engineer', 58000, '2021-07-01', 'sneha.rao@company.com', 105, 26),
+(105, 'Vikram Singh', 'IT', 'IT Manager', 85000, '2016-11-05', 'vikram.singh@company.com', NULL, 40),
+(106, 'Neha Kapoor', 'Sales', 'Sales Manager', 70000, '2017-09-18', 'neha.kapoor@company.com', NULL, 36),
+(107, 'Karan Verma', 'Finance', 'Accountant', 42000, '2022-02-10', 'karan.verma@company.com', 108, 25),
+(108, 'Anita Desai', 'Finance', 'Finance Manager', 75000, '2015-05-22', 'anita.desai@company.com', NULL, 42),
+(109, 'Rahul Nair', 'Sales', 'Sales Executive', 33000, '2023-01-09', 'rahul.nair@company.com', 106, 24),
+(110, 'Divya Joshi', 'HR', 'HR Executive', 30000, '2022-08-30', NULL, 103, 23);
+SELECT * FROM Employee;
+
+SELECT EmpName AS Name, Department AS Dept
+FROM Employee;
+
+SELECT *
+FROM Employee
+WHERE Department = 'IT';
+
+SELECT EmpName, Salary
+FROM Employee
+WHERE Salary > 50000;
+
+SELECT *
+FROM Employee
+WHERE Age >= 25 AND Age <= 35;
+
+SELECT *
+FROM Employee
+WHERE Department <> 'Sales';
+
+SELECT *
+FROM Employee
+WHERE Email IS NULL;
+
+SELECT *
+FROM Employee
+WHERE ManagerId IS NOT NULL;
+
+SELECT *
+FROM Employee
+ORDER BY Salary DESC;
+
+SELECT EmpName, Department, Salary
+FROM Employee
+ORDER BY Department ASC, Salary DESC;
+
+ALTER TABLE Employee ADD PhoneNo VARCHAR(15);
+
+DESCRIBE Employee;
+
+ALTER TABLE Employee MODIFY Designation VARCHAR(50);
+
+DESCRIBE Employee;
+
+UPDATE Employee
+SET Salary = 38000
+WHERE EmpId = 109;
+
+SELECT * FROM Employee;
+
+UPDATE Employee
+SET Salary = Salary * 1.10
+WHERE Department = 'IT';
+
+SELECT * FROM Employee;
+
+DELETE FROM Employee
+WHERE EmpId = 110;
+
+DELETE FROM Employee
+WHERE Department = 'Finance' AND Salary < 45000;
+
+DESCRIBE Employee;
+
+ALTER TABLE Employee RENAME TO Staff;
+
+ALTER TABLE Staff RENAME TO Employee;
+
+DESCRIBE Employee;
+
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(30),
+    Location VARCHAR(50)
+);
+
+INSERT INTO Department (DeptID, DeptName, Location) VALUES
+(1, 'Sales', 'Mumbai'),
+(2, 'IT', 'Bengaluru'),
+(3, 'HR', 'Delhi'),
+(4, 'Finance', 'Pune');
+
+ALTER TABLE Employee ADD DeptID INT;
+
+UPDATE Employee SET DeptID = 1 WHERE Department = 'Sales';
+UPDATE Employee SET DeptID = 2 WHERE Department = 'IT';
+UPDATE Employee SET DeptID = 3 WHERE Department = 'HR';
+UPDATE Employee SET DeptID = 4 WHERE Department = 'Finance';
+
+ALTER TABLE Employee
+ADD CONSTRAINT fk_dept
+FOREIGN KEY (DeptID) REFERENCES Department(DeptID);
+
+DESCRIBE Employee;
+
+ALTER TABLE Employee ADD Bonus DECIMAL(10,2);
+
+DESCRIBE Employee;
+
+ALTER TABLE Employee
+ADD City VARCHAR(30),
+ADD PinCode VARCHAR(10);
+
+DESCRIBE Employee;
+
+ALTER TABLE Employee MODIFY Bonus DECIMAL(12,2);
+
+DESCRIBE Employee;
+
+ALTER TABLE Employee
+CHANGE COLUMN DOJ DateOfJoining DATE;
+
+DESCRIBE Employee;
+
+ALTER TABLE Employee DROP COLUMN PinCode;
+
+DESCRIBE Employee;
+
+ALTER TABLE Employee
+ADD CONSTRAINT chk_salary CHECK (Salary > 0);
+
+DESCRIBE Employee;
+
+ALTER TABLE Employee DROP FOREIGN KEY fk_dept;
+
+ALTER TABLE Department RENAME TO Dept;
+
+DESCRIBE Dept;
+
+ALTER TABLE Employee
+ADD CONSTRAINT fk_dept
+FOREIGN KEY (DeptID) REFERENCES Dept(DeptID)
+ON DELETE CASCADE;
+
+SELECT e.EmpName, d.DeptName, d.Location
+FROM Employee e
+INNER JOIN Dept d ON e.DeptID = d.DeptID;
+
+SELECT EmpName, Salary
+FROM Employee
+ORDER BY Salary ASC;
+
+SELECT *
+FROM Employee
+ORDER BY Age DESC;
+
+UPDATE Employee
+SET Designation = 'Senior Accountant'
+WHERE EmpId = 107;
+
+UPDATE Employee
+SET ManagerId = 103
+WHERE DeptID = (
+    SELECT DeptID
+    FROM Dept
+    WHERE DeptName = 'HR'
+);
+
+UPDATE Employee
+SET Salary = 62000,
+    Designation = 'Senior Software Engineer'
+WHERE EmpId = 104;
+
+SELECT e.EmpName, d.DeptName, d.Location
+FROM Employee e
+INNER JOIN Dept d ON e.DeptID = d.DeptID;
+
+SELECT * FROM Employee;
