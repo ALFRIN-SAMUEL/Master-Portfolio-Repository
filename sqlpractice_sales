@@ -1,0 +1,88 @@
+CREATE DATABASE sales_db;
+USE sales_db;
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id VARCHAR(10),
+    product VARCHAR(50),
+    category VARCHAR(30),
+    amount DECIMAL(10,2),
+    order_date DATE,
+    region VARCHAR(20),
+    quantity INT
+);
+INSERT INTO orders
+(order_id, customer_id, product, category, amount, order_date, region, quantity)
+VALUES
+(101, 'C01', 'Laptop',     'Electronics', 55000, '2026-01-05', 'North', 1),
+(102, 'C02', 'Mouse',      'Electronics', 1200,  '2026-01-07', 'South', 2),
+(103, 'C01', 'Keyboard',   'Electronics', 2500,  '2026-01-10', 'North', 1),
+(104, 'C03', 'Chair',      'Furniture',   7000,  '2026-01-12', 'West',  2),
+(105, 'C04', 'Desk',       'Furniture',   12000, '2026-01-15', 'East',  1),
+(106, 'C02', 'Headphones', 'Electronics', 3000,  '2026-01-18', 'South', 3),
+(107, 'C05', 'Chair',      'Furniture',   6500,  '2026-01-20', 'North', 1),
+(108, 'C03', 'Monitor',    'Electronics', 15000, '2026-01-22', 'West',  2),
+(109, 'C01', 'Desk',       'Furniture',   11000, '2026-01-25', 'North', 1),
+(110, 'C04', 'Mouse',      'Electronics', 1000,  '2026-01-27', 'East',  2),
+(111, 'C05', 'Laptop',     'Electronics', 60000, '2026-02-02', 'North', 1),
+(112, 'C02', 'Desk',       'Furniture',   13000, '2026-02-05', 'South', 1),
+(113, 'C03', 'Keyboard',   'Electronics', 2800,  '2026-02-08', 'West',  2),
+(114, 'C01', 'Chair',      'Furniture',   7500,  '2026-02-10', 'North', 2),
+(115, 'C04', 'Monitor',    'Electronics', 16000, '2026-02-12', 'East',  1);
+SELECT product, SUM(amount) AS total_sales
+FROM orders
+GROUP BY product;
+SELECT customer_id, COUNT(*) AS total_orders
+FROM orders
+GROUP BY customer_id;
+SELECT region, AVG(amount) AS average_order_amount
+FROM orders
+GROUP BY region;
+SELECT category, SUM(quantity) AS total_quantity
+FROM orders
+GROUP BY category;
+SELECT customer_id, MAX(amount) AS maximum_amount
+FROM orders
+GROUP BY customer_id;
+SELECT category, COUNT(DISTINCT product) AS distinct_products
+FROM orders
+GROUP BY category;
+SELECT DATE_FORMAT(order_date, '%Y-%m') AS order_month,
+       COUNT(*) AS total_orders
+FROM orders
+GROUP BY DATE_FORMAT(order_date, '%Y-%m');
+SELECT category, SUM(amount) AS total_sales
+FROM orders
+GROUP BY category
+HAVING SUM(amount) > 50000;
+SELECT customer_id, COUNT(*) AS total_orders
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(*) > 5;
+SELECT region, SUM(amount) AS total_revenue
+FROM orders
+GROUP BY region
+ORDER BY total_revenue DESC;
+SELECT product, AVG(quantity) AS average_quantity
+FROM orders
+GROUP BY product
+HAVING AVG(quantity) > 10;
+SELECT region, category,
+       COUNT(*) AS total_orders,
+       SUM(amount) AS total_amount
+FROM orders
+GROUP BY region, category;
+SELECT product,
+       MIN(amount) AS minimum_amount,
+       MAX(amount) AS maximum_amount
+FROM orders
+GROUP BY product;
+SELECT category,
+       COUNT(DISTINCT customer_id) AS distinct_customers
+FROM orders
+GROUP BY category
+HAVING COUNT(DISTINCT customer_id) > 20;
+SELECT region, SUM(amount) AS total_sales
+FROM orders
+GROUP BY region
+ORDER BY total_sales DESC
+LIMIT 3;
