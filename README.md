@@ -1,5 +1,7 @@
 # Master Portfolio Repository
 1.FINANCIAL DATA EXTRACTION,CLEANING,MANIPULATION AND ANALYSIS OF 4 COMPANIES(AAPL,TSM,MU,AMD)
+
+
 a) Data pulling
 I utilized the yfinance package to obtain 4 years' worth of historical financial data and main financial statements. I programmed the function to loop through the four large firms: AAPL, TSM, AMD, and MU.
 
@@ -26,11 +28,15 @@ e) Multi-Tab Workbook Creation
 I merged all my calculated analytics from dictionaries along with historical prices in Pandas. Then i used openpyxl to make a excel file named financial_analysis_report where each company's analysis was on a separate spreadsheet.
 
 
+
+
 2. E-Commerce Data Pipeline (Python + MySQL + Excel) 
 Created an automated data pipeline in Python that programmatically unzipped a compressed ZIP file 
 and loaded 540,000+ transactions rows into a MySQL database through SQLAlchemy. 
 Used SQL commands to select a selected subset of high-volume transactions
 (Country = France and Quantity > 30) and exported them directly into a separate Excel sheet.
+
+
 
 
 3. Practised SQL fundamentals using an Employee Management database, covering CRUD operations, filtering, sorting, constraints, schema modifications, and table joins.
